@@ -15,75 +15,65 @@
 
 <div class="card">
 <h3>Single Room (Non-AC)</h3>
-<p class="price">₹1000 / night</p>
-<p class="capacity">Max 1 Guest</p>
-<button onclick="selectRoom('Single Room (Non-AC)',1000,1,false,this)">Book Now</button>
+<p>₹1000 / night</p>
+<button onclick="selectRoom('Single Room (Non-AC)',1000,false)">Book Now</button>
 </div>
 
 <div class="card">
 <h3>Single Room (AC)</h3>
-<p class="price">₹1600 / night</p>
-<p class="capacity">Max 1 Guest</p>
-<button onclick="selectRoom('Single Room (AC)',1600,1,false,this)">Book Now</button>
+<p>₹1600 / night</p>
+<button onclick="selectRoom('Single Room (AC)',1600,false)">Book Now</button>
 </div>
 
 <div class="card">
 <h3>Double Room (Non-AC)</h3>
-<p class="price">₹2000 / night</p>
-<p class="capacity">Max 3 Guests</p>
-<button onclick="selectRoom('Double Room (Non-AC)',2000,3,false,this)">Book Now</button>
+<p>₹2000 / night</p>
+<button onclick="selectRoom('Double Room (Non-AC)',2000,false)">Book Now</button>
 </div>
 
 <div class="card">
 <h3>Double Room (AC)</h3>
-<p class="price">₹2600 / night</p>
-<p class="capacity">Max 3 Guests</p>
-<button onclick="selectRoom('Double Room (AC)',2600,3,false,this)">Book Now</button>
+<p>₹2600 / night</p>
+<button onclick="selectRoom('Double Room (AC)',2600,false)">Book Now</button>
 </div>
 
 <div class="card">
 <h3>Suite Room (AC)</h3>
-<p class="price">₹4200 / night</p>
-<p class="capacity">Max 4 Guests</p>
-<button onclick="selectRoom('Suite Room (AC)',4200,4,false,this)">Book Now</button>
+<p>₹4200 / night</p>
+<button onclick="selectRoom('Suite Room (AC)',4200,false)">Book Now</button>
 </div>
 
 <div class="card">
 <h3>Dormitory (Per Bed)</h3>
-<p class="price">₹600 / night / person</p>
-<p class="capacity">Max 8 Guests</p>
-<button onclick="selectRoom('Dormitory (Per Bed)',600,8,true,this)">Book Now</button>
+<p>₹600 / night / person</p>
+<button onclick="selectRoom('Dormitory (Per Bed)',600,true)">Book Now</button>
 </div>
 
 </section>
+
 
 <section class="form-section" id="bookingForm">
 
 <h2>Booking Details</h2>
 
-<div id="formMessage" class="form-message"></div>
-
 <div class="form-group">
 <label>Selected Room *</label>
 <input type="text" id="roomName" readonly>
-<span class="error" id="roomError"></span>
 </div>
 
 <div class="form-group">
 <label>Check-in Date *</label>
 <input type="date" id="checkin">
-<span class="error" id="checkinError"></span>
 </div>
 
 <div class="form-group">
 <label>Check-out Date *</label>
 <input type="date" id="checkout">
-<span class="error" id="checkoutError"></span>
 </div>
 
 <div class="form-group">
 <label>Adults *</label>
-<input type="number" id="adults" min="0" value="1">
+<input type="number" id="adults" min="1" value="1">
 </div>
 
 <div class="form-group">
@@ -94,36 +84,36 @@
 <div class="form-group">
 <label>Full Name *</label>
 <input type="text" id="fullname">
-<span class="error" id="nameError"></span>
-</div>
-  
-<div class="form-group">
-  <label>Contact Number <span class="required">*</span></label>
-  <input type="tel" id="contact" required>
 </div>
 
 <div class="form-group">
-  <label>Email <span class="required">*</span></label>
-  <input type="email" id="email" required>
+<label>Contact Number *</label>
+<input type="tel" id="contact">
 </div>
 
 <div class="form-group">
-  <label>Gender <span class="required">*</span></label>
-  <select id="gender" required>
-    <option value="">Select Gender</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
-  </select>
+<label>Email *</label>
+<input type="email" id="email">
 </div>
 
 <div class="form-group">
-  <label>Address <span class="required">*</span></label>
-  <textarea id="address" required></textarea>
+<label>Gender *</label>
+<select id="gender">
+<option value="">Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
 </div>
+
+<div class="form-group">
+<label>Address *</label>
+<textarea id="address"></textarea>
+</div>
+
 <div class="form-group">
 <label>Special Requests</label>
-<textarea id="requests" rows="3" placeholder="Any specific requirement?"></textarea>
+<textarea id="requests"></textarea>
 </div>
 
 <div class="total-box" id="totalDisplay">
@@ -134,7 +124,7 @@ Total: ₹0
 
 </section>
 
-<!-- OVERLAY -->
+
 <div class="overlay" id="overlay">
 <div class="loader"></div>
 <p id="processingText">Processing Booking...</p>
@@ -146,7 +136,7 @@ Total: ₹0
 </div>
 </div>
 
-<!-- RECEIPT -->
+
 <div class="modal" id="receiptModal">
 <div class="modal-content">
 <div class="close" onclick="closeReceipt()">X</div>
