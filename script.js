@@ -1,103 +1,70 @@
-const roomCards = document.querySelectorAll(".room-card");
-const selectedRoom = document.getElementById("selectedRoom");
-const roomPrice = document.getElementById("roomPrice");
-const roomCapacity = document.getElementById("roomCapacity");
+let selectedPrice = 0;
+let selectedCapacity = 0;
+let isDorm = false;
 
-const checkin = document.getElementById("checkin");
-const checkout = document.getElementById("checkout");
-const adults = document.getElementById("adults");
-const children = document.getElementById("children");
-const form = document.getElementById("bookingForm");
-const message = document.getElementById("message");
-const priceSummary = document.getElementById("priceSummary");
+function selectRoom(name, price, capacity, dorm) {
+    selectedPrice = price;
+    selectedCapacity = capacity;
+    isDorm = dorm;
 
-const modal = document.getElementById("receiptModal");
-const receiptContent = document.getElementById("receiptContent");
-const closeModal = document.getElementById("closeModal");
-
-const today = new Date().toISOString().split("T")[0];
-checkin.min = today;
-checkout.min = today;
-
-checkin.addEventListener("change", () => {
-checkout.value = "";
-checkout.min = checkin.value;
-});
-
-roomCards.forEach(card => {
-card.addEventListener("click", () => {
-roomCards.forEach(c => c.classList.remove("selected"));
-card.classList.add("selected");
-
-selectedRoom.value = card.dataset.room;
-roomPrice.value = card.dataset.price;
-roomCapacity.value = card.dataset.capacity;
-});
-});
-
-function calculateNights(start, end) {
-return (new Date(end) - new Date(start)) / (1000*3600*24);
+    document.getElementById("roomName").value = name;
+    document.getElementById("bookingForm").scrollIntoView({behavior:"smooth"});
 }
 
-form.addEventListener("submit", function(e){
-e.preventDefault();
-message.innerHTML = "";
+document.querySelectorAll("#checkin,#checkout,#adults,#children")
+.forEach(el => el.addEventListener("input", calculateTotal));
 
-if(!selectedRoom.value){
-message.innerHTML = "Please select a room.";
-return;
+function calculateTotal(){
+    const checkin = new Date(document.getElementById("checkin").value);
+    const checkout = new Date(document.getElementById("checkout").value);
+    const adults = parseInt(document.getElementById("adults").value) || 0;
+    const children = parseInt(document.getElementById("children").value) || 0;
+
+    const guests = adults + children;
+
+    if(guests > selectedCapacity){
+        alert("Guest limit exceeded for this room.");
+        return;
+    }
+
+    const nights = (checkout - checkin)/(1000*60*60*24);
+
+    if(nights > 0){
+        let total = isDorm ? (selectedPrice * guests * nights)
+                           : (selectedPrice * nights);
+
+        document.getElementById("totalDisplay").innerText =
+            `Total (${nights} nights): ₹${total}`;
+    }
 }
 
-const totalGuests = Number(adults.value) + Number(children.value || 0);
-const capacity = Number(roomCapacity.value);
+function processBooking(){
+    document.getElementById("overlay").style.display="flex";
 
-if(selectedRoom.value !== "Dormitory (Per Bed)" && totalGuests > capacity){
-message.innerHTML = "Guest count exceeds room capacity.";
-return;
+    setTimeout(()=>{
+        document.querySelector(".loader").style.display="none";
+        document.getElementById("successBox").style.display="block";
+    },1500);
 }
 
-const nights = calculateNights(checkin.value, checkout.value);
-if(nights <= 0){
-message.innerHTML = "Check-out must be after check-in.";
-return;
+function showReceipt(){
+    const bookingId = "RS" + Math.floor(Math.random()*100000);
+    const room = document.getElementById("roomName").value;
+    const total = document.getElementById("totalDisplay").innerText;
+    const name = document.getElementById("fullname").value;
+
+    document.getElementById("receiptContent").innerHTML = `
+        <p><strong>Booking ID:</strong> ${bookingId}</p>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Room:</strong> ${room}</p>
+        <p>${total}</p>
+        <p>Status: Confirmed</p>
+    `;
+
+    document.getElementById("receiptModal").style.display="flex";
 }
 
-const pricePerNight = Number(roomPrice.value);
-const totalPrice = selectedRoom.value === "Dormitory (Per Bed)"
-? nights * pricePerNight * totalGuests
-: nights * pricePerNight;
-
-priceSummary.innerHTML = `
-<strong>Total Nights:</strong> ${nights}<br>
-<strong>Total Guests:</strong> ${totalGuests}<br>
-<strong>Total Price:</strong> ₹${totalPrice}
-`;
-
-message.innerHTML = "Processing booking...";
-
-setTimeout(() => {
-
-message.innerHTML = "✔ Booking Successful!";
-
-modal.style.display = "block";
-
-receiptContent.innerHTML = `
-<p><strong>Booking ID:</strong> HB${Math.floor(Math.random()*100000)}</p>
-<p><strong>Name:</strong> ${document.getElementById("name").value}</p>
-<p><strong>Room:</strong> ${selectedRoom.value}</p>
-<p><strong>Guests:</strong> ${totalGuests}</p>
-<p><strong>Check-in:</strong> ${checkin.value}</p>
-<p><strong>Check-out:</strong> ${checkout.value}</p>
-<p><strong>Total Amount:</strong> ₹${totalPrice}</p>
-`;
-
-},2000);
-
-});
-
-closeModal.onclick = () => modal.style.display = "none";
-window.onclick = (e) => {
-if(e.target == modal){
-modal.style.display = "none";
+function closeReceipt(){
+    document.getElementById("receiptModal").style.display="none";
+    location.reload();
 }
-};
