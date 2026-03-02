@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Booking Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Hotel Booking Form</h1>
+
+    <form id="bookingForm">
+
+        <div class="form-group">
+            <label for="checkin">Check-in Date *</label>
+            <input type="date" id="checkin" required>
+        </div>
+
+        <div class="form-group">
+            <label for="checkout">Check-out Date *</label>
+            <input type="date" id="checkout" required>
+        </div>
+
+        <div class="form-group">
+            <label for="roomType">Room Type *</label>
+            <select id="roomType" required>
+                <option value="">Select Room Type</option>
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+                <option value="Suite">Suite</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="guests">Number of Guests *</label>
+            <input type="number" id="guests" min="1" required>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="requests">Special Requests (Optional)</label>
+            <textarea id="requests" rows="4"></textarea>
+        </div>
+
+        <div class="summary" id="bookingSummary"></div>
+
+        <div class="form-group full-width">
+            <button type="submit">Book Now</button>
+        </div>
+
+        <p id="errorMessage" class="error"></p>
+        <p id="successMessage" class="success"></p>
+
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
