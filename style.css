@@ -1,212 +1,137 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+body {
+font-family: Arial, sans-serif;
+background: #fff5f8;
+margin: 0;
+padding: 0;
 }
 
-body{
-    background:linear-gradient(135deg,#ffd6e8,#ffe9f3,#fff0f7);
-    padding:40px 20px;
+.main-heading {
+text-align: center;
+margin: 30px 0;
 }
 
-.main-heading{
-    text-align:center;
-    margin-bottom:40px;
-    color:#6a004e;
+.rooms {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
 }
 
-/* Menu Card for Rooms */
-
-.rooms{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-    margin-bottom:60px;
+.card {
+background: white;
+padding: 20px;
+width: 220px;
+text-align: center;
+border-radius: 10px;
+transition: 0.3s;
+border: 2px solid transparent;
 }
 
-.card{
-    background:#fff0f7;
-    border:2px solid gold;
-    border-radius:18px;
-    padding:25px;
-    text-align:center;
-    transition:0.4s;
-    box-shadow:0 10px 20px rgba(0,0,0,0.05);
+.card:hover {
+background: #ffe6f0;
+border: 2px solid gold;
+transform: scale(1.05);
 }
 
-.card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 30px rgba(255,105,180,0.3);
+.card button {
+margin-top: 10px;
+padding: 8px 15px;
+background: #ff4da6;
+color: white;
+border: none;
+cursor: pointer;
+border-radius: 5px;
 }
 
-.card h3{
-    color:#8b005d;
-    margin-bottom:10px;
+.form-section {
+max-width: 500px;
+margin: 40px auto;
+background: white;
+padding: 20px;
+border-radius: 10px;
 }
 
-.price{
-    font-weight:bold;
-    margin:8px 0;
+.form-group {
+margin-bottom: 15px;
 }
 
-.capacity{
-    font-size:14px;
-    margin-bottom:12px;
+input, select, textarea {
+width: 100%;
+padding: 8px;
+margin-top: 5px;
 }
 
-.card button{
-    background:linear-gradient(to right,#ff4da6,#ff99cc);
-    border:none;
-    padding:8px 16px;
-    border-radius:20px;
-    color:white;
-    cursor:pointer;
+.total-box {
+font-weight: bold;
+margin-top: 15px;
 }
 
-/* Booking Form */
-
-.form-section{
-    max-width:650px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+.confirm-btn {
+width: 100%;
+padding: 10px;
+background: #ff4da6;
+color: white;
+border: none;
+cursor: pointer;
 }
 
-.form-group{
-    margin-bottom:15px;
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.7);
+display: none;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+color: white;
 }
 
-label{
-    font-size:14px;
-    display:block;
-    margin-bottom:5px;
+.loader {
+border: 5px solid #f3f3f3;
+border-top: 5px solid green;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+animation: spin 1s linear infinite;
 }
 
-input,select{
-    width:100%;
-    padding:8px;
-    border-radius:8px;
-    border:1px solid #ccc;
+@keyframes spin {
+100% { transform: rotate(360deg); }
 }
 
-.total-box{
-    background:#fff0f7;
-    padding:10px;
-    border-radius:10px;
-    margin-top:10px;
-    font-weight:bold;
-}
-/* booking confirm button  */
-.confirm-btn{
-    width:100%;
-    padding:12px;
-    margin-top:20px;
-    background:linear-gradient(to right,#cc0066,#ff4da6);
-    border:none;
-    border-radius:25px;
-    color:white;
-    cursor:pointer;
+.success {
+display: none;
+text-align: center;
 }
 
-
-
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    background:rgba(0,0,0,0.6);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    color:white;
+.tick {
+font-size: 60px;
+color: #4CAF50;
 }
 
-.loader{
-    border:6px solid #f3f3f3;
-    border-top:6px solid #ff4da6;
-    border-radius:50%;
-    width:60px;
-    height:60px;
-    animation:spin 1s linear infinite;
-    margin-bottom:20px;
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.6);
+justify-content: center;
+align-items: center;
 }
 
-@keyframes spin{
-    100%{transform:rotate(360deg);}
+.modal-content {
+background: white;
+padding: 20px;
+border-radius: 10px;
+width: 300px;
 }
 
-.success{
-    display:none;
-    text-align:center;
-}
-/* Booking successful tick showing  */
-.tick{
-    width:80px;
-    height:80px;
-    background:#28a745;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
-    margin:10px auto;
-}
-
-
-.modal{
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    background:rgba(0,0,0,0.5);
-    display:none;
-    align-items:center;
-    justify-content:center;
-}
-
-.modal-content{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    width:90%;
-    max-width:400px;
-    border:2px solid gold;
-}
-
-.close{
-    text-align:right;
-    cursor:pointer;
-}
-/*added special request feature  */
-
-textarea{
-width:100%;
-padding:8px;
-border-radius:8px;
-border:1px solid #ccc;
-resize:none;
-}
-
-.error{
-color:red;
-font-size:12px;
-display:block;
-margin-top:4px;
-}
-
-input.error-border{
-border:1px solid red;
-}
-
-.form-message{
-margin-bottom:15px;
-font-weight:bold;
-color:red;
+.close {
+cursor: pointer;
+float: right;
 }
