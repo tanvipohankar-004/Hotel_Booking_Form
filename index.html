@@ -1,133 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Royal Stay Hotel Booking</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Royal Stay Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+    <h1 class="main-heading">Select Your Royal Stay Experience</h1>
 
-<h1>Royal Stay – Choose Your Room</h1>
+    <!-- ROOM SECTION -->
+    <section class="rooms">
 
-<!-- ROOM MENU -->
-<div class="room-menu">
-    <div class="room-card" data-room="Non-AC Single" data-price="1500" data-capacity="2">
-        <h3>Non-AC Single</h3>
-        <p>₹1500 / night</p>
-        <p>Max 2 Guests</p>
+        <div class="card" onclick="selectRoom('Single Room (Non-AC)',1500,1,false)">
+            <h3>Single Room (Non-AC)</h3>
+            <p class="price">₹1500 / night</p>
+            <p class="capacity">Max 1 Guest</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card" onclick="selectRoom('Single Room (AC)',2200,1,false)">
+            <h3>Single Room (AC)</h3>
+            <p class="price">₹2200 / night</p>
+            <p class="capacity">Max 1 Guest</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card" onclick="selectRoom('Double Room (Non-AC)',2800,3,false)">
+            <h3>Double Room (Non-AC)</h3>
+            <p class="price">₹2800 / night</p>
+            <p class="capacity">Max 3 Guests</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card" onclick="selectRoom('Double Room (AC)',3500,3,false)">
+            <h3>Double Room (AC)</h3>
+            <p class="price">₹3500 / night</p>
+            <p class="capacity">Max 3 Guests</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card" onclick="selectRoom('Suite Room (AC)',6000,4,false)">
+            <h3>Suite Room (AC)</h3>
+            <p class="price">₹6000 / night</p>
+            <p class="capacity">Max 4 Guests</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card" onclick="selectRoom('Dormitory (Per Bed)',800,8,true)">
+            <h3>Dormitory (Per Bed)</h3>
+            <p class="price">₹800 / night / person</p>
+            <p class="capacity">Max 8 Guests</p>
+            <button>Book Now</button>
+        </div>
+
+    </section>
+
+    <!-- BOOKING FORM -->
+    <section class="form-section" id="bookingForm">
+
+        <h2>Booking Details</h2>
+
+        <div class="form-group">
+            <label>Selected Room</label>
+            <input type="text" id="roomName" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Check-in Date</label>
+            <input type="date" id="checkin">
+        </div>
+
+        <div class="form-group">
+            <label>Check-out Date</label>
+            <input type="date" id="checkout">
+        </div>
+
+        <div class="form-group">
+            <label>Adults</label>
+            <input type="number" id="adults" min="0" value="1">
+        </div>
+
+        <div class="form-group">
+            <label>Children</label>
+            <input type="number" id="children" min="0" value="0">
+        </div>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="fullname">
+        </div>
+
+        <div class="form-group">
+            <label>ID Type</label>
+            <select id="idtype">
+                <option>Aadhar</option>
+                <option>PAN</option>
+                <option>Passport</option>
+                <option>Voter ID</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>ID Number</label>
+            <input type="text" id="idnumber">
+        </div>
+
+        <div class="total-box" id="totalDisplay">
+            Total: ₹0
+        </div>
+
+        <button class="confirm-btn" onclick="processBooking()">Confirm Booking</button>
+
+    </section>
+
+    <!-- PROCESSING OVERLAY -->
+    <div class="overlay" id="overlay">
+        <div class="loader"></div>
+        <p>Processing Booking...</p>
+
+        <div class="success" id="successBox">
+            <div class="tick">✔</div>
+            <h3>Booking Successful</h3>
+            <button onclick="showReceipt()">View Receipt</button>
+        </div>
     </div>
 
-    <div class="room-card" data-room="AC Double" data-price="3000" data-capacity="4">
-        <h3>AC Double</h3>
-        <p>₹3000 / night</p>
-        <p>Max 4 Guests</p>
+    <!-- RECEIPT MODAL -->
+    <div class="modal" id="receiptModal">
+        <div class="modal-content">
+            <div class="close" onclick="closeReceipt()">X</div>
+            <h3>Booking Receipt</h3>
+            <div id="receiptContent"></div>
+        </div>
     </div>
-
-    <div class="room-card" data-room="Suite Room" data-price="5500" data-capacity="5">
-        <h3>Suite Room</h3>
-        <p>₹5500 / night</p>
-        <p>Max 5 Guests</p>
-    </div>
-
-    <div class="room-card" data-room="Dormitory (Per Bed)" data-price="800" data-capacity="1">
-        <h3>Dormitory (Per Bed)</h3>
-        <p>₹800 / night / person</p>
-        <p>Per Person Pricing</p>
-    </div>
-</div>
-
-<hr>
-
-<form id="bookingForm">
-
-<input type="hidden" id="selectedRoom">
-<input type="hidden" id="roomPrice">
-<input type="hidden" id="roomCapacity">
-
-<h2>Booking Details</h2>
-
-<div class="grid">
-    <div>
-        <label>Check-in *</label>
-        <input type="date" id="checkin" required>
-    </div>
-
-    <div>
-        <label>Check-out *</label>
-        <input type="date" id="checkout" required>
-    </div>
-
-    <div>
-        <label>Adults *</label>
-        <input type="number" id="adults" min="1" required>
-    </div>
-
-    <div>
-        <label>Children</label>
-        <input type="number" id="children" min="0">
-    </div>
-</div>
-
-<h2>Main Booker Details</h2>
-
-<div class="grid">
-    <div>
-        <label>Full Name *</label>
-        <input type="text" id="name" required>
-    </div>
-
-    <div>
-        <label>Age *</label>
-        <input type="number" id="age" min="18" required>
-    </div>
-
-    <div>
-        <label>Gender *</label>
-        <select id="gender" required>
-            <option value="">Select</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-        </select>
-    </div>
-
-    <div>
-        <label>ID Type *</label>
-        <select id="idType" required>
-            <option value="">Select ID</option>
-            <option>PAN</option>
-            <option>Aadhaar</option>
-            <option>Passport</option>
-            <option>Voter ID</option>
-        </select>
-    </div>
-
-    <div>
-        <label>ID Number *</label>
-        <input type="text" id="idNumber" required>
-    </div>
-</div>
-
-<div id="priceSummary" class="summary"></div>
-
-<button type="submit">Proceed to Booking</button>
-
-<p id="message"></p>
-
-</form>
-</div>
-
-<!-- RECEIPT MODAL -->
-<div id="receiptModal" class="modal">
-<div class="modal-content">
-<span id="closeModal">&times;</span>
-<h2>Booking Receipt</h2>
-<div id="receiptContent"></div>
-</div>
-</div>
 
 <script src="script.js"></script>
 </body>
