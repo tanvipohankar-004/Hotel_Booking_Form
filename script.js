@@ -1,4 +1,4 @@
-//global variables declared
+//global var
 
 let selectedRoom = "";
 let selectedPrice = 0;
@@ -10,11 +10,11 @@ let generatedBookingId = "";
 let calculatedTotal = 0;
 let totalNights = 0;
 
-// room select
+// select room
 
 function selectRoom(name, price, dorm) {
     selectedRoom = name;
-    selectedPrice = price;
+    selectedPrice = Number(price); // ensure number
     isDormitory = dorm;
 
     document.getElementById("roomName").value = name;
@@ -26,14 +26,14 @@ function selectRoom(name, price, dorm) {
     calculateTotal();
 }
 
-// date  validation logic worknig
+// date validation
 
 const checkinInput = document.getElementById("checkIn");
 const checkoutInput = document.getElementById("checkOut");
 
-// Disable past dates
+// disable past dates
 const today = new Date();
-today.setHours(0,0,0,0);
+today.setHours(0, 0, 0, 0);
 checkinInput.min = today.toISOString().split("T")[0];
 
 checkinInput.addEventListener("change", function () {
@@ -42,11 +42,9 @@ checkinInput.addEventListener("change", function () {
 
         const checkinDate = new Date(checkinInput.value);
 
-        // Checkout must not be on same day or must be at least next day
         checkinDate.setDate(checkinDate.getDate() + 1);
         checkoutInput.min = checkinDate.toISOString().split("T")[0];
 
-        // Clear invalid checkout date
         if (checkoutInput.value &&
             new Date(checkoutInput.value) <= new Date(checkinInput.value)) {
             checkoutInput.value = "";
@@ -57,10 +55,10 @@ checkinInput.addEventListener("change", function () {
 });
 
 checkoutInput.addEventListener("change", calculateTotal);
-// total price calculation : 
-
 document.getElementById("adults").addEventListener("input", calculateTotal);
 document.getElementById("children").addEventListener("input", calculateTotal);
+
+// price calculation
 
 function calculateTotal() {
 
@@ -78,11 +76,12 @@ function calculateTotal() {
         return;
     }
 
-    const checkinDate = new Date(checkin);
-    const checkoutDate = new Date(checkout);
+    const checkinDate = new Date(checkin + "T00:00:00");
+    const checkoutDate = new Date(checkout + "T00:00:00");
 
-    const diffTime = checkoutDate.getTime() - checkinDate.getTime();
-    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  // per night price calculations
+    const diffTime = checkoutDate - checkinDate;
+    const nights = diffTime / (1000 * 60 * 60 * 24);
 
     if (nights <= 0) {
         totalDisplay.innerText = "Total: ₹0";
@@ -99,19 +98,19 @@ function calculateTotal() {
         const totalGuests = adults + children;
         total = selectedPrice * nights * totalGuests;
     } else {
-        total = selectedPrice * nights;
+        total = selectedPrice * nights; 
     }
 
     calculatedTotal = total;
     totalDisplay.innerText = `Total: ₹${total}`;
 }
 
-// booking form validation
+// booking process
+
 function processBooking() {
 
-    const form = document.querySelector(".form-section");
+    const form = document.getElementById("bookingForm"); 
 
-    // HTML5 validation
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -138,18 +137,18 @@ function processBooking() {
     }, 1000);
 }
 
-// generate room and booking id
+// =room and booking id generator
 
 function generateRoomAndBookingId() {
 
-    const name = document.getElementById("fullName").value.trim();
+    const name = document.getElementById("fullName").value.trim() || "GUEST";
 
     const prefix = name.substring(0, 4).toUpperCase();
     generatedRoomNumber = Math.floor(100 + Math.random() * 900);
     generatedBookingId = prefix + generatedRoomNumber;
 }
 
-// final reciept generating
+// reciept
 
 function showReceipt() {
 
