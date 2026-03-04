@@ -14,7 +14,7 @@ let totalNights = 0;
 
 function selectRoom(name, price, dorm) {
     selectedRoom = name;
-    selectedPrice = Number(price); // ensure number
+    selectedPrice = Number(price); 
     isDormitory = dorm;
 
     document.getElementById("roomName").value = name;
@@ -79,7 +79,7 @@ function calculateTotal() {
     const checkinDate = new Date(checkin + "T00:00:00");
     const checkoutDate = new Date(checkout + "T00:00:00");
 
-  // per night price calculations
+    // per night price calculations
     const diffTime = checkoutDate - checkinDate;
     const nights = diffTime / (1000 * 60 * 60 * 24);
 
@@ -98,7 +98,7 @@ function calculateTotal() {
         const totalGuests = adults + children;
         total = selectedPrice * nights * totalGuests;
     } else {
-        total = selectedPrice * nights; 
+        total = selectedPrice * nights;
     }
 
     calculatedTotal = total;
@@ -109,7 +109,7 @@ function calculateTotal() {
 
 function processBooking() {
 
-    const form = document.getElementById("bookingForm"); 
+    const form = document.getElementById("bookingForm");
 
     if (!form.checkValidity()) {
         form.reportValidity();
@@ -130,11 +130,22 @@ function processBooking() {
 
     document.getElementById("overlay").style.display = "flex";
 
+    // show processing state
+    document.querySelector(".loader").style.display = "block";
+    document.getElementById("processingText").style.display = "block";
+    document.getElementById("successBox").style.display = "none";
+
+    // processing delay 1.5 seconds
     setTimeout(() => {
+
+        // hide processing
         document.querySelector(".loader").style.display = "none";
         document.getElementById("processingText").style.display = "none";
+
+        // show success
         document.getElementById("successBox").style.display = "block";
-    }, 1000);
+
+    }, 1500);
 }
 
 // =room and booking id generator
