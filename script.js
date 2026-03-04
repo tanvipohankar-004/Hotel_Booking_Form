@@ -161,63 +161,21 @@ function generateRoomAndBookingId() {
 
 // reciept
 
-function showReceipt() {
+function showReceipt(){
 
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("receiptModal").style.display = "flex";
+document.getElementById("overlay").style.display="none";
+document.getElementById("receiptModal").style.display="flex";
 
-    const name = document.getElementById("fullName").value || "N/A";
-    const gender = document.getElementById("gender").value || "N/A";
-    const email = document.getElementById("email").value || "N/A";
-    const contact = document.getElementById("contact").value || "N/A";
-    const address = document.getElementById("address").value || "N/A";
-    const requests = document.getElementById("requests").value || "None";
+document.getElementById("rName").innerText=document.getElementById("fullName").value;
+document.getElementById("rRoom").innerText=selectedRoom;
+document.getElementById("rRoomNo").innerText=generatedRoomNumber;
+document.getElementById("rBookingId").innerText=generatedBookingId;
+document.getElementById("rCheckIn").innerText=checkinInput.value;
+document.getElementById("rCheckOut").innerText=checkoutInput.value;
+document.getElementById("rNights").innerText=totalNights;
+document.getElementById("rTotal").innerText="₹"+calculatedTotal;
 
-    const adults = document.getElementById("adults").value || 0;
-    const children = document.getElementById("children").value || 0;
-
-    const checkin = checkinInput.value;
-    const checkout = checkoutInput.value;
-
-    document.getElementById("receiptContent").innerHTML = `
-        <div class="receipt-header">
-            <h2>ROYAL STAY BOOKING</h2>
-            <div class="receipt-subtitle">Luxury Hotel Reservation Receipt</div>
-        </div>
-
-        <div class="receipt-section">
-            <h4>Guest Details</h4>
-            <div class="receipt-row"><span>Name</span><span>${name}</span></div>
-            <div class="receipt-row"><span>Gender</span><span>${gender}</span></div>
-            <div class="receipt-row"><span>Address</span><span>${address}</span></div>
-            <div class="receipt-row"><span>Email</span><span>${email}</span></div>
-            <div class="receipt-row"><span>Contact</span><span>${contact}</span></div>
-            <div class="receipt-row"><span>Special Requests</span><span>${requests}</span></div>
-        </div>
-
-        <div class="receipt-section">
-            <h4>Booking Details</h4>
-            <div class="receipt-row"><span>Room Type</span><span>${selectedRoom}</span></div>
-            <div class="receipt-row"><span>Room Number</span><span>${generatedRoomNumber}</span></div>
-            <div class="receipt-row"><span>Booking ID</span><span>${generatedBookingId}</span></div>
-            <div class="receipt-row"><span>Adults</span><span>${adults}</span></div>
-            <div class="receipt-row"><span>Children</span><span>${children}</span></div>
-            <div class="receipt-row"><span>Check-in</span><span>${checkin}</span></div>
-            <div class="receipt-row"><span>Check-out</span><span>${checkout}</span></div>
-            <div class="receipt-row"><span>Nights</span><span>${totalNights}</span></div>
-        </div>
-
-        <div class="receipt-total">
-            <span>Total Amount</span>
-            <span>₹${calculatedTotal}</span>
-        </div>
-
-        <div class="receipt-footer">
-            Thank you for choosing Royal Stay. We wish you a pleasant stay!
-        </div>
-    `;
 }
-
 function closeReceipt() {
     document.getElementById("receiptModal").style.display = "none";
     location.reload();
