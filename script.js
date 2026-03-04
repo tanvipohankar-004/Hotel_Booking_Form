@@ -1,9 +1,16 @@
+//global variables declared
+
 let selectedRoom = "";
 let selectedPrice = 0;
 let isDormitory = false;
+
 let generatedRoomNumber = "";
 let generatedBookingId = "";
-// room selection 
+
+let calculatedTotal = 0;
+let totalNights = 0;
+
+// room select
 
 function selectRoom(name, price, dorm) {
     selectedRoom = name;
@@ -19,21 +26,29 @@ function selectRoom(name, price, dorm) {
     calculateTotal();
 }
 
-// date
-
-const today = new Date().toISOString().split("T")[0];
+// date  validation logic worknig
 
 const checkinInput = document.getElementById("checkIn");
 const checkoutInput = document.getElementById("checkOut");
 
-checkinInput.min = today;
+// Disable past dates
+const today = new Date();
+today.setHours(0,0,0,0);
+checkinInput.min = today.toISOString().split("T")[0];
 
 checkinInput.addEventListener("change", function () {
 
     if (checkinInput.value) {
-        checkoutInput.min = checkinInput.value;
 
-        if (checkoutInput.value && checkoutInput.value <= checkinInput.value) {
+        const checkinDate = new Date(checkinInput.value);
+
+        // Checkout must not be on same day or must be at least next day
+        checkinDate.setDate(checkinDate.getDate() + 1);
+        checkoutInput.min = checkinDate.toISOString().split("T")[0];
+
+        // Clear invalid checkout date
+        if (checkoutInput.value &&
+            new Date(checkoutInput.value) <= new Date(checkinInput.value)) {
             checkoutInput.value = "";
         }
     }
@@ -41,18 +56,9 @@ checkinInput.addEventListener("change", function () {
     calculateTotal();
 });
 
-checkoutInput.addEventListener("change", function () {
+checkoutInput.addEventListener("change", calculateTotal);
+// total price calculation : 
 
-    if (checkoutInput.value <= checkinInput.value) {
-        alert("Checkout date must be after Check-in date.");
-        checkoutInput.value = "";
-        return;
-    }
-
-    calculateTotal();
-});
-
-// price calculator
 document.getElementById("adults").addEventListener("input", calculateTotal);
 document.getElementById("children").addEventListener("input", calculateTotal);
 
@@ -63,52 +69,61 @@ function calculateTotal() {
     const adults = parseInt(document.getElementById("adults").value) || 0;
     const children = parseInt(document.getElementById("children").value) || 0;
 
+    const totalDisplay = document.getElementById("totalDisplay");
+
     if (!checkin || !checkout || !selectedRoom) {
-        document.getElementById("totalDisplay").innerText = "Total: ₹0";
+        totalDisplay.innerText = "Total: ₹0";
+        calculatedTotal = 0;
+        totalNights = 0;
         return;
     }
 
-    const nights = (new Date(checkout) - new Date(checkin)) / (1000 * 60 * 60 * 24);
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+
+    const diffTime = checkoutDate.getTime() - checkinDate.getTime();
+    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (nights <= 0) {
-        document.getElementById("totalDisplay").innerText = "Total: ₹0";
+        totalDisplay.innerText = "Total: ₹0";
+        calculatedTotal = 0;
+        totalNights = 0;
         return;
     }
+
+    totalNights = nights;
 
     let total = 0;
 
     if (isDormitory) {
-        total = selectedPrice * nights * (adults + children);
+        const totalGuests = adults + children;
+        total = selectedPrice * nights * totalGuests;
     } else {
         total = selectedPrice * nights;
     }
 
-    document.getElementById("totalDisplay").innerText = "Total: ₹" + total;
+    calculatedTotal = total;
+    totalDisplay.innerText = `Total: ₹${total}`;
 }
 
-// Booking process
-
+// booking form validation
 function processBooking() {
 
-    const name = document.getElementById("fullName").value.trim();
+    const form = document.querySelector(".form-section");
+
+    // HTML5 validation
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
 
     if (!selectedRoom) {
         alert("Please select a room.");
         return;
     }
 
-    if (!checkinInput.value || !checkoutInput.value) {
+    if (calculatedTotal === 0) {
         alert("Please select valid dates.");
-        return;
-    }
-
-    if (checkoutInput.value <= checkinInput.value) {
-        alert("Checkout date must be after Check-in date.");
-        return;
-    }
-
-    if (name.length < 3) {
-        alert("Please enter valid full name.");
         return;
     }
 
@@ -123,19 +138,18 @@ function processBooking() {
     }, 1000);
 }
 
-// booking id
+// generate room and booking id
 
 function generateRoomAndBookingId() {
 
     const name = document.getElementById("fullName").value.trim();
 
     const prefix = name.substring(0, 4).toUpperCase();
-
     generatedRoomNumber = Math.floor(100 + Math.random() * 900);
     generatedBookingId = prefix + generatedRoomNumber;
 }
 
-// Generate reciept
+// final reciept generating
 
 function showReceipt() {
 
@@ -147,14 +161,13 @@ function showReceipt() {
     const email = document.getElementById("email").value || "N/A";
     const contact = document.getElementById("contact").value || "N/A";
     const address = document.getElementById("address").value || "N/A";
+    const requests = document.getElementById("requests").value || "None";
 
     const adults = document.getElementById("adults").value || 0;
     const children = document.getElementById("children").value || 0;
 
     const checkin = checkinInput.value;
     const checkout = checkoutInput.value;
-
-    const total = document.getElementById("totalDisplay").innerText;
 
     document.getElementById("receiptContent").innerHTML = `
         <div class="receipt-header">
@@ -169,6 +182,7 @@ function showReceipt() {
             <div class="receipt-row"><span>Address</span><span>${address}</span></div>
             <div class="receipt-row"><span>Email</span><span>${email}</span></div>
             <div class="receipt-row"><span>Contact</span><span>${contact}</span></div>
+            <div class="receipt-row"><span>Special Requests</span><span>${requests}</span></div>
         </div>
 
         <div class="receipt-section">
@@ -180,11 +194,12 @@ function showReceipt() {
             <div class="receipt-row"><span>Children</span><span>${children}</span></div>
             <div class="receipt-row"><span>Check-in</span><span>${checkin}</span></div>
             <div class="receipt-row"><span>Check-out</span><span>${checkout}</span></div>
+            <div class="receipt-row"><span>Nights</span><span>${totalNights}</span></div>
         </div>
 
         <div class="receipt-total">
             <span>Total Amount</span>
-            <span>${total}</span>
+            <span>₹${calculatedTotal}</span>
         </div>
 
         <div class="receipt-footer">
