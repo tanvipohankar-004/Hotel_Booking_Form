@@ -83,7 +83,7 @@ Users can choose different room categories based on preference.
 
 ![Booking Form](screenshots/bookingform.png)
 
-Guests enter booking details including dates, guest count, and contact information.
+Guests enter booking details including dates, guest count, contact and other required information.
 
 ---
 
@@ -99,7 +99,8 @@ A processing animation confirms that the booking is successful.
 
 ![Booking Receipt](screenshots/reciept.png)
 
-The system generates a receipt displaying booking ID, room number, total nights, and final amount.
+The system generates a receipt displaying booking ID, room number, total nights, and final amount
+with check-in and check-out dates and other user details.
 
 ---
 
