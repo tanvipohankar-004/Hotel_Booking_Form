@@ -1,4 +1,4 @@
-/* ===== GLOBAL RESET ===== */
+/* global reset */
 *{
 margin:0;
 padding:0;
@@ -12,7 +12,7 @@ color:#333;
 line-height:1.6;
 }
 
-/* ===== HEADER ===== */
+/* header */
 
 .header{
 text-align:center;
@@ -28,8 +28,7 @@ letter-spacing:1px;
 color:#2c2c2c;
 }
 
-/* ===== ROOM SECTION ===== */
-
+/*room sec  */
 .rooms{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -37,7 +36,7 @@ gap:28px;
 padding:45px 8%;
 }
 
-/* ===== ROOM CARD ===== */
+/*room cards */
 
 .card{
 background:linear-gradient(145deg,#ffffff,#fafafa);
@@ -69,7 +68,7 @@ font-weight:500;
 color:#9a7c3d;
 }
 
-/* ===== CARD BUTTON ===== */
+/*book button*/
 
 .card button{
 padding:10px 20px;
@@ -88,7 +87,7 @@ background:linear-gradient(135deg,#c6a55f,#b99650);
 transform:scale(1.05);
 }
 
-/* ===== FORM SECTION ===== */
+/*form*/
 
 .form-section{
 background:white;
@@ -108,15 +107,12 @@ font-weight:600;
 color:#333;
 }
 
-/* ===== FORM GRID ===== */
-
 .form-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
 }
-
-/* ===== INPUTS ===== */
+/*inputs  */
 
 input,
 select,
@@ -130,15 +126,11 @@ transition:all .25s ease;
 width:100%;
 }
 
-/* ===== TEXTAREA ===== */
-
 textarea{
 grid-column:span 2;
 min-height:90px;
 resize:none;
 }
-
-/* ===== INPUT FOCUS EFFECT ===== */
 
 input:focus,
 select:focus,
@@ -149,8 +141,7 @@ border-color:#d4b97c;
 box-shadow:0 0 0 3px rgba(212,185,124,0.18);
 }
 
-/* ===== TOTAL DISPLAY ===== */
-
+/*price box  */
 .total-box{
 margin-top:25px;
 padding:16px;
@@ -163,8 +154,7 @@ font-weight:600;
 color:#6d5630;
 }
 
-/* ===== CONFIRM BUTTON ===== */
-
+/*confirm booking  */
 .confirm-btn{
 margin-top:22px;
 width:100%;
@@ -184,7 +174,7 @@ transform:translateY(-2px);
 background:linear-gradient(135deg,#c6a55f,#b99650);
 }
 
-/* ===== OVERLAY ===== */
+/*overlay  */
 
 #overlay{
 position:fixed;
@@ -208,8 +198,6 @@ width:300px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* ===== LOADER ===== */
-
 .loader{
 width:48px;
 height:48px;
@@ -225,7 +213,6 @@ margin:0 auto 20px;
 100%{transform:rotate(360deg)}
 }
 
-/* ===== SUCCESS BOX ===== */
 
 #successBox{
 display:none;
@@ -245,7 +232,6 @@ color:white;
 cursor:pointer;
 }
 
-/* ===== RECEIPT MODAL ===== */
 
 #receiptModal{
 display:none;
@@ -273,8 +259,6 @@ text-align:center;
 margin-bottom:25px;
 }
 
-/* ===== RECEIPT ROW ===== */
-
 .receipt-row{
 display:flex;
 justify-content:space-between;
@@ -291,8 +275,6 @@ border-bottom:none;
 margin-top:10px;
 }
 
-/* ===== CLOSE BUTTON ===== */
-
 .close{
 position:absolute;
 margin-left:310px;
@@ -305,7 +287,6 @@ color:#666;
 color:black;
 }
 
-/* ===== RESPONSIVE ===== */
 
 @media(max-width:600px){
 
