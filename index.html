@@ -53,18 +53,27 @@
 
 </section>
 
-<section class="form-section" id="bookingForm">
+<!-- BOOKING FORM -->
+
+<form class="form-section" id="bookingForm">
 <h2>Booking Details</h2>
 
 <div class="form-grid">
 
 <input type="text" id="roomName" placeholder="Selected Room" readonly required>
+
 <input type="date" id="checkIn" required>
+
 <input type="date" id="checkOut" required>
+
 <input type="number" id="adults" min="1" value="1" required>
+
 <input type="number" id="children" min="0" value="0">
+
 <input type="text" id="fullName" placeholder="Full Name" required>
+
 <input type="tel" id="contact" placeholder="Contact Number" required>
+
 <input type="email" id="email" placeholder="Email" required>
 
 <select id="gender" required>
@@ -75,44 +84,89 @@
 </select>
 
 <textarea id="address" placeholder="Address" required></textarea>
+
 <textarea id="requests" placeholder="Special Requests"></textarea>
 
 </div>
 
 <div class="total-box" id="totalDisplay">Total: ₹0</div>
-<button class="confirm-btn" onclick="processBooking()">Confirm Booking</button>
-</section>
+
+<button type="button" class="confirm-btn" onclick="processBooking()">
+Confirm Booking
+</button>
+
+</form>
+
+<!-- PROCESSING OVERLAY -->
 
 <div id="overlay">
 <div class="overlay-content">
+
 <div class="loader"></div>
+
 <p id="processingText">Processing Booking...</p>
 
 <div id="successBox">
 <h3>Booking Successful</h3>
-<button onclick="showReceipt()">View Receipt</button>
+<button type="button" onclick="showReceipt()">View Receipt</button>
 </div>
+
 </div>
 </div>
 
+<!-- RECEIPT MODAL -->
+
 <div id="receiptModal">
 <div class="modal-content">
+
 <span class="close" onclick="closeReceipt()">×</span>
 
 <h2>Royal Stay Booking Receipt</h2>
 
-<div class="receipt-row"><span>Name</span><span id="rName"></span></div>
-<div class="receipt-row"><span>Room</span><span id="rRoom"></span></div>
-<div class="receipt-row"><span>Room No</span><span id="rRoomNo"></span></div>
-<div class="receipt-row"><span>Booking ID</span><span id="rBookingId"></span></div>
-<div class="receipt-row"><span>Check-in</span><span id="rCheckIn"></span></div>
-<div class="receipt-row"><span>Check-out</span><span id="rCheckOut"></span></div>
-<div class="receipt-row"><span>Nights</span><span id="rNights"></span></div>
-<div class="receipt-row total"><span>Total</span><span id="rTotal"></span></div>
+<div class="receipt-row">
+<span>Name</span>
+<span id="rName"></span>
+</div>
+
+<div class="receipt-row">
+<span>Room</span>
+<span id="rRoom"></span>
+</div>
+
+<div class="receipt-row">
+<span>Room No</span>
+<span id="rRoomNo"></span>
+</div>
+
+<div class="receipt-row">
+<span>Booking ID</span>
+<span id="rBookingId"></span>
+</div>
+
+<div class="receipt-row">
+<span>Check-in</span>
+<span id="rCheckIn"></span>
+</div>
+
+<div class="receipt-row">
+<span>Check-out</span>
+<span id="rCheckOut"></span>
+</div>
+
+<div class="receipt-row">
+<span>Nights</span>
+<span id="rNights"></span>
+</div>
+
+<div class="receipt-row total">
+<span>Total</span>
+<span id="rTotal"></span>
+</div>
 
 </div>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
